@@ -21,7 +21,6 @@ The filter implements a three-stage pipelined architecture:
   - Exploits coefficient symmetry to reduce multiplications by 50%
   - Pipelined architecture for improved throughput
 - **Robust Design**
-  - Synchronous reset capability
   - Dynamic coefficient loading
   - Built-in overflow protection
 
@@ -45,26 +44,36 @@ symmetric_FIR_Verilog_Implementation/
 
 ## Test Signal Generation
 
-The project includes a configurable Python script (`generate_noisy_signal.py`) for test signal generation:
+The project includes an interactive Python script (`generate_noisy_signal.py`) for test signal generation. Users can easily configure test signals through command-line prompts.
 
-### Configurable Parameters
-- Sample rate (Hz)
-- Signal frequency (Hz)
-- Noise amplitude
-- Number of samples
-- Signal type (sine, square, etc.)
+### Running the Signal Generator
 
-Example configuration:
-```python
-# Configure test signal parameters
-sample_rate = 1000    # Hz
-signal_freq = 10      # Hz
-noise_amplitude = 0.1
-num_samples = 1000
-signal_type = 'sine'  # Options: 'sine', 'square'
+```bash
+python generate_noisy_signal.py
 ```
 
-The script automatically generates `input_signal.txt` for testing purposes.
+### Interactive Configuration Options
+When you run the script, you'll be prompted to configure:
+
+```python
+Configure test signal parameters:
+---------------------------------
+Sample rate (Hz) [default=1000]: 
+Signal frequency (Hz) [default=10]: 
+Noise amplitude (0.0-1.0) [default=0.2]: 
+Number of samples [default=1000]: 
+Signal type [default=sine]: 
+
+Available signal types: 
+- 'sine'   : Sinusoidal wave
+- 'square' : Square wave
+- 'cos'    : Cosine wave
+```
+
+### Output
+- Generates `input_signal.txt` with hex-formatted signal values
+- Displays plot of both clean and noisy signals
+- Shows first 10 values in decimal and hexadecimal format for verification
 
 ## Simulation Results
 
