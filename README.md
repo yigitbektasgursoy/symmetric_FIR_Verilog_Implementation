@@ -1,4 +1,4 @@
-```markdown
+
 # Symmetric FIR Filter Implementation in Verilog
 
 A highly configurable, pipelined Symmetric FIR (Finite Impulse Response) filter implementation in Verilog HDL. This design leverages symmetry to optimize hardware resources while maintaining high throughput through pipelining.
@@ -71,4 +71,3 @@ The testbench provides comprehensive verification:
 ## Contact
 
 [Your contact information]
-```
