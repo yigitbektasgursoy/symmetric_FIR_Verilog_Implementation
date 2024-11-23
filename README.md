@@ -1,4 +1,3 @@
-
 # Symmetric FIR Filter Implementation in Verilog
 
 A highly configurable, pipelined Symmetric FIR (Finite Impulse Response) filter implementation in Verilog HDL. This design leverages symmetry to optimize hardware resources while maintaining high throughput through pipelining.
@@ -18,6 +17,13 @@ The filter implements a three-stage pipelined architecture:
   - Adjustable number of filter taps
   - Configurable data and coefficient widths
   - Automatic bit-width management to prevent overflow
+- **Resource Optimization**
+  - Exploits coefficient symmetry to reduce multiplications by 50%
+  - Pipelined architecture for improved throughput
+- **Robust Design**
+  - Synchronous reset capability
+  - Dynamic coefficient loading
+  - Built-in overflow protection
 
 ### Directory Structure
 
@@ -37,6 +43,29 @@ symmetric_FIR_Verilog_Implementation/
     └── symmetricFIR_block_diagram.jpeg
 ```
 
+## Test Signal Generation
+
+The project includes a configurable Python script (`generate_noisy_signal.py`) for test signal generation:
+
+### Configurable Parameters
+- Sample rate (Hz)
+- Signal frequency (Hz)
+- Noise amplitude
+- Number of samples
+- Signal type (sine, square, etc.)
+
+Example configuration:
+```python
+# Configure test signal parameters
+sample_rate = 1000    # Hz
+signal_freq = 10      # Hz
+noise_amplitude = 0.1
+num_samples = 1000
+signal_type = 'sine'  # Options: 'sine', 'square'
+```
+
+The script automatically generates `input_signal.txt` for testing purposes.
+
 ## Simulation Results
 
 ![Simulation Example 1](docs/behav_sim_example_1.jpeg)
@@ -50,24 +79,47 @@ The testbench provides comprehensive verification:
 - Waveform verification capabilities
 - Built-in completion detection
 
-### Running Tests
+### Running Tests in Vivado
 
-1. Load the design in your preferred Verilog simulator
-2. Ensure test vectors are present in:
-   - `test/coeff_val.txt` for filter coefficients
-   - `test/input_signal.txt` for input samples
-3. Run the testbench simulation
-4. Monitor filtered output and verification results
+1. Create New Project in Vivado
+2. Add Design Sources:
+   - Add `symmetricFIR.v` as design source
+   - Add `symmetricFIR_tb.v` as simulation source
 
+3. Add Test Vector Files:
+   - Right-click on Simulation Sources → Add Sources
+   - Select "Add or create simulation sources"
+   - **Important**: Choose "All Files (*.*)" in file type dropdown
+   - Add both `coeff_val.txt` and `input_signal.txt`
+   > Note: .txt files will only be visible when "All Files (*.*)" is selected
+
+4. Configure Waveform Settings:
+   - Start simulation and open waveform window
+   - For input signal (`noisy_signal`):
+     * Right-click → Waveform Style → Analog
+     * Right-click → Radix → Signed Decimal
+   - For output signal (`filtered_signal`):
+     * Right-click → Waveform Style → Analog
+     * Right-click → Radix → Signed Decimal
+   > Note: Analog display style allows better visualization of the filtering effect
+
+5. Run Simulation:
+   - Start Behavioral Simulation
+   - Monitor filtered output and verification results
+
+### Waveform Display Example
+![Simulation Example 1](docs/behav_sim_example_1.jpeg)
+- Input (top): Noisy signal in analog format
+- Output (bottom): Filtered signal showing noise reduction
 
 ## License
 
-[Your chosen license]
+MIT License
 
 ## Author
 
-[Your Name]
+Yiğit Bektaş Gürsoy
 
 ## Contact
 
-[Your contact information]
+- Email: yigitbektasgursoy@gmail.com
