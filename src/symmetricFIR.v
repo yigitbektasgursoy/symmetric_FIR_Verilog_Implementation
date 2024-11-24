@@ -16,8 +16,8 @@ module symmetricFIR #(
     input clr,                                    // Synchronous clear
     input load,                                   // Coefficient load enable
     input signed [COEFF_WIDTH-1:0] coeff_value,   // Input coefficient value
-    input signed [OUTPUT_WIDTH-1:0] noisy_signal, // Input signal to be filtered
-    output reg signed [30:0] filtered_signal      // Filtered output signal
+    input signed [DATA_WIDTH - 1 :0] noisy_signal, // Input signal to be filtered
+    output reg signed [OUTPUT_WIDTH - 1:0] filtered_signal      // Filtered output signal
 );
 
     // Register declarations for coefficient handling

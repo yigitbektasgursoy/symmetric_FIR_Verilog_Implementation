@@ -22,7 +22,7 @@ module symmetricFIR_tb();
     reg load;                         // Coefficient load enable
     reg signed [COEFF_WIDTH-1:0] coeff_value; // Input coefficient
     reg signed [DATA_WIDTH-1:0] noisy_signal; // Input signal
-    wire signed [30:0] filtered_signal;       // Filter output
+    wire signed [OUTPUT_WIDTH - 1:0] filtered_signal;       // Filter output
     reg filtering_process_done;               // Test completion flag
 
     // Instantiate the Device Under Test (DUT)
