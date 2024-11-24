@@ -20,9 +20,6 @@ The filter implements a three-stage pipelined architecture:
 - **Resource Optimization**
   - Exploits coefficient symmetry to reduce multiplications by 50%
   - Pipelined architecture for improved throughput
-- **Robust Design**
-  - Dynamic coefficient loading
-  - Built-in overflow protection
 
 ### Directory Structure
 
