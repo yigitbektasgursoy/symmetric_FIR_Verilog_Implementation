@@ -1,6 +1,6 @@
 # Symmetric FIR Filter Implementation in Verilog
 
-A highly configurable, pipelined Symmetric FIR (Finite Impulse Response) filter implementation in Verilog HDL. This design leverages symmetry to optimize hardware resources while maintaining high throughput through pipelining.
+A pipelined Symmetric FIR (Finite Impulse Response) filter implementation in Verilog HDL. This design leverages symmetry to optimize hardware resources while maintaining high throughput through pipelining.
 
 ## Architecture Overview
 
@@ -34,8 +34,10 @@ symmetric_FIR_Verilog_Implementation/
 │   ├── input_signal.txt
 │   └── coeff_val.txt
 └── docs/
-    ├── behav_sim_example_1.jpeg
-    ├── behav_sim_example_2.jpeg
+    ├── sawtooth.jpeg
+    ├── square.jpeg
+	├── triangle.jpeg
+    ├── cos.jpeg
     └── symmetricFIR_block_diagram.jpeg
 ```
 
@@ -62,9 +64,11 @@ Number of samples [default=1000]:
 Signal type [default=sine]: 
 
 Available signal types: 
-- 'sine'   : Sinusoidal wave
-- 'square' : Square wave
-- 'cos'    : Cosine wave
+- 'sine'    : Sinusoidal wave
+- 'square'  : Square wave
+- 'cos'     : Cosine wave
+- 'triangle': Triangle wave
+- 'sawtooth': Sawtooth wave
 ```
 
 ### Output
@@ -73,17 +77,17 @@ Available signal types:
 - Shows first 10 values in decimal and hexadecimal format for verification
 
 ## Simulation Results
+![Simulation Example 1](docs/sawtooth.jpeg)
+![Simulation Example 2](docs/square.jpeg)
+![Simulation Example 3](docs/triangle.jpeg)
+![Simulation Example 4](docs/cos.jpeg)
 
-![Simulation Example 1](docs/behav_sim_example_1.jpeg)
-![Simulation Example 2](docs/behav_sim_example_2.jpeg)
 
 ## Testing
 
 The testbench provides comprehensive verification:
 - Automated coefficient loading from file
 - Input signal processing from external source
-- Waveform verification capabilities
-- Built-in completion detection
 
 ### Running Tests in Vivado
 

@@ -1,8 +1,8 @@
-module symmetricFIR #(
+ module symmetricFIR #(
     // Design Parameters
     parameter COEFF_NUM = 6,     // Number of filter coefficients (taps)
     parameter COEFF_WIDTH = 8,   // Width of each coefficient
-    parameter DATA_DELAY = 12,   // Length of delay line (2x COEFF_NUM for symmetric filter)
+    parameter DATA_DELAY = COEFF_NUM*2,   // Length of delay line (2x COEFF_NUM for symmetric filter)
     parameter DATA_WIDTH = 12,   // Width of input data
     
     // Calculated widths for each processing stage to prevent overflow
@@ -16,7 +16,7 @@ module symmetricFIR #(
     input clr,                                    // Synchronous clear
     input load,                                   // Coefficient load enable
     input signed [COEFF_WIDTH-1:0] coeff_value,   // Input coefficient value
-    input signed [DATA_WIDTH - 1 :0] noisy_signal, // Input signal to be filtered
+    input signed [DATA_WIDTH-1:0] noisy_signal, // Input signal to be filtered
     output reg signed [OUTPUT_WIDTH - 1:0] filtered_signal      // Filtered output signal
 );
 
@@ -39,6 +39,7 @@ module symmetricFIR #(
     reg signed [STAGE2_WIDTH-1:0] stage2_mul_reg [0:DATA_DELAY/2-1];
     // Stage 3: Final addition results
     reg signed [STAGE3_WIDTH-1:0] stage3_add_reg [0:DATA_DELAY/4-1];
+    
 
     // Data loading control block
     // Manages the filling of the delay line
@@ -49,12 +50,14 @@ module symmetricFIR #(
         end
         else begin
             // Set data_loaded flag when delay line is full
-            if(data_loaded_counter == DATA_DELAY) begin
+            if(data_loaded_counter == DATA_DELAY-1) begin
                 data_loaded <= 1;
             end
             else begin
-                data_loaded_counter <= data_loaded_counter + 1;
-                data_loaded <= 0;
+                if(coeff_loaded)begin
+                    data_loaded_counter <= data_loaded_counter + 1;
+                    data_loaded <= 0;
+                end
             end
         end
     end
@@ -116,11 +119,14 @@ module symmetricFIR #(
         end
         else begin
             if(data_loaded) begin      
-                if(data_ready_counter == 3) begin  // All three stages complete
+                if(data_ready_counter == 2) begin  // All three stages complete
                     data_ready <= 1;
                 end
                 else begin
                     data_ready_counter <= data_ready_counter + 1;
+                end
+                if(data_ready)begin
+                    filtered_signal <= stage3_add_reg[0] + stage3_add_reg[1] + stage3_add_reg[2];
                 end
             end
         end
@@ -143,21 +149,14 @@ module symmetricFIR #(
                         // Stage 1: Add symmetric tap pairs
                         stage1_add_reg[j] <= data_reg[j] + data_reg[(DATA_DELAY-1) - j];
                         // Stage 2: Multiply by coefficients
-                        stage2_mul_reg[j] <= stage1_add_reg[j] * coeff_reg[j];
+                        stage2_mul_reg[j] <= (stage1_add_reg[j] * coeff_reg[j]);
                         // Stage 3: Add multiplication results (only for first half due to symmetry)
                         if(COEFF_NUM/2 > j) begin
                              stage3_add_reg[j] <= stage2_mul_reg[j] + stage2_mul_reg[(COEFF_NUM - 1) - j];
-                        end
-                    end
-                    // Final accumulation of results
-                    if(data_ready) begin
-                        if(COEFF_NUM/2 > j) begin
-                            filtered_signal <= filtered_signal + stage3_add_reg[j];
                         end
                     end
                 end
             end
         end
     endgenerate
-
 endmodule
