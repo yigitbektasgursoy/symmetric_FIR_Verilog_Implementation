@@ -36,7 +36,7 @@ symmetric_FIR_Verilog_Implementation/
 └── docs/
     ├── sawtooth.jpeg
     ├── square.jpeg
-	├── triangle.jpeg
+    ├── triangle.jpeg
     ├── cos.jpeg
     └── symmetricFIR_block_diagram.jpeg
 ```
