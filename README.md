@@ -117,11 +117,6 @@ The testbench provides comprehensive verification:
    - Start Behavioral Simulation
    - Monitor filtered output and verification results
 
-### Waveform Display Example
-![Simulation Example 1](docs/behav_sim_example_1.jpeg)
-- Input (top): Noisy signal in analog format
-- Output (bottom): Filtered signal showing noise reduction
-
 ## License
 
 MIT License
